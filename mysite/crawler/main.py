@@ -1,4 +1,4 @@
-import os
+
 import re
 import requests
 from bs4 import BeautifulSoup, NavigableString
@@ -57,9 +57,4 @@ class EpisodeData:
     def __str__(self):
         return('episode_id: {}, title: {}, url_thumbnail: {}, rating: {}, created_date: {}'.format(
             self.episode_id, self.title, self.url_thumbnail, self.rating,self.created_date ))
-
-a = WebtoonCrawler()
-
-for b in (a.get_episode_list('703835', 1)):
-    print (b)
 
