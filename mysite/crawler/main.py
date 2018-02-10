@@ -19,13 +19,20 @@ class WebtoonCrawler:
         soup = BeautifulSoup(source.text, 'lxml')
 
 
-        tr_list = soup.find('table', class_="viewList").find_all('tr')[1:]
+        tr_list = soup.find('table', class_="viewList").find_all('tr')
+
+
+        if "band_banner" in str(tr_list[1]):
+            correct_tr_list = tr_list[2:]
+        else:
+            correct_tr_list = tr_list[1:]
+
         PATTERN_EPISODE_ID = re.compile(r'no=(\d*?)&')
 
 
         episode_list = []
 
-        for tr in tr_list:
+        for tr in correct_tr_list:
 
 
             episode_id_match = re.search(PATTERN_EPISODE_ID,str(tr))
@@ -37,6 +44,7 @@ class WebtoonCrawler:
 
             episode = EpisodeData(episode_id, url_thumbnail, title,rating,created_date)
             episode_list.append(episode)
+
 
         return episode_list
 
@@ -57,4 +65,5 @@ class EpisodeData:
     def __str__(self):
         return('episode_id: {}, title: {}, url_thumbnail: {}, rating: {}, created_date: {}'.format(
             self.episode_id, self.title, self.url_thumbnail, self.rating,self.created_date ))
+
 
